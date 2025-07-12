@@ -33,23 +33,5 @@
   },
   "devDependencies": {
     "@napi-rs/cli": "^2.18.4"
-  },
-  "optionalDependencies": {
-    "@solstream/shredstream-proxy-win32-x64-msvc": "0.0.1",
-    "@solstream/shredstream-proxy-darwin-x64": "0.0.1",
-    "@solstream/shredstream-proxy-linux-x64-gnu": "0.0.1",
-    "@solstream/shredstream-proxy-darwin-arm64": "0.0.1",
-    "@solstream/shredstream-proxy-android-arm64": "0.0.1",
-    "@solstream/shredstream-proxy-linux-arm64-gnu": "0.0.1",
-    "@solstream/shredstream-proxy-linux-arm64-musl": "0.0.1",
-    "@solstream/shredstream-proxy-win32-arm64-msvc": "0.0.1",
-    "@solstream/shredstream-proxy-linux-arm-gnueabihf": "0.0.1",
-    "@solstream/shredstream-proxy-linux-arm-musleabihf": "0.0.1",
-    "@solstream/shredstream-proxy-linux-x64-musl": "0.0.1",
-    "@solstream/shredstream-proxy-freebsd-x64": "0.0.1",
-    "@solstream/shredstream-proxy-win32-ia32-msvc": "0.0.1",
-    "@solstream/shredstream-proxy-android-arm-eabi": "0.0.1",
-    "@solstream/shredstream-proxy-darwin-universal": "0.0.1",
-    "@solstream/shredstream-proxy-linux-riscv64-gnu": "0.0.1"
   }
 }
