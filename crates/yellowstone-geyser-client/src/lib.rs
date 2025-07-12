@@ -4,7 +4,7 @@ use tonic::{
     codec::CompressionEncoding,
     metadata::{AsciiMetadataValue, MetadataValue},
     service::{interceptor::InterceptedService, Interceptor},
-    transport::{Channel, Endpoint},
+    transport::{Channel, ClientTlsConfig},
     Request, Status, Streaming,
 };
 
@@ -55,15 +55,19 @@ pub struct GeyserClient {
 }
 
 impl GeyserClient {
-    pub async fn connect(
-        endpoint: impl AsRef<str>,
+    pub fn new(
+        endpoint_url: impl AsRef<str>,
         config: Option<GeyserClientConfig>,
     ) -> Result<Self, Box<dyn Error>> {
         let config = config.unwrap_or_default();
 
-        let channel = Endpoint::from_shared(endpoint.as_ref().to_string())?
-            .connect()
-            .await?;
+        let tls_config = ClientTlsConfig::new()
+            .with_native_roots()
+            .with_webpki_roots();
+        let channel = Channel::from_shared(endpoint_url.as_ref().to_string())
+            .unwrap()
+            .tls_config(tls_config)?
+            .connect_lazy();
 
         let mut client = crate::proto::geyser::geyser_client::GeyserClient::with_interceptor(
             channel,
@@ -72,6 +76,7 @@ impl GeyserClient {
                 x_request_snapshot: config.x_request_snapshot,
             },
         );
+
         if let Some(encoding) = config.send_compressed {
             client = client.send_compressed(encoding);
         }

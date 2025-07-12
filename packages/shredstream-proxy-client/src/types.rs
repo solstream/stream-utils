@@ -2,6 +2,25 @@ use napi::bindgen_prelude::BigInt;
 use std::collections::HashMap;
 
 #[napi(object)]
+pub struct ShredstreamClientConfig {
+    pub x_token: Option<String>,
+    pub x_request_snapshot: Option<bool>,
+    pub max_decoding_message_size: Option<u32>,
+    pub max_encoding_message_size: Option<u32>,
+}
+
+impl From<ShredstreamClientConfig> for shredstream_proxy_client::ShredstreamClientConfig {
+    fn from(config: ShredstreamClientConfig) -> Self {
+        shredstream_proxy_client::ShredstreamClientConfig {
+            send_compressed: None,
+            accept_compressed: None,
+            max_decoding_message_size: config.max_decoding_message_size.map(|x| x as usize),
+            max_encoding_message_size: config.max_encoding_message_size.map(|x| x as usize),
+        }
+    }
+}
+
+#[napi(object)]
 pub struct ShredstreamFilterAccounts {
     pub account: Vec<String>,
     pub owner: Vec<String>,

@@ -3,14 +3,31 @@
 #[macro_use]
 extern crate napi_derive;
 
-mod types;
+pub mod types;
 
+use crate::types::{GeyserClientConfig, SubscribeRequest, SubscribeUpdate};
 use napi::{
     threadsafe_function::{ThreadsafeFunction, ThreadsafeFunctionCallMode},
+    tokio::task::JoinHandle,
     Error, Result,
 };
 
-use crate::types::{ClientConfig, SubscribeRequest, SubscribeUpdate};
+#[napi]
+pub struct GeyserSubscription {
+    task_handle: JoinHandle<napi::Result<()>>,
+    on_close: Option<ThreadsafeFunction<()>>,
+}
+
+#[napi]
+impl GeyserSubscription {
+    #[napi]
+    pub fn close(&mut self) {
+        self.on_close
+            .as_mut()
+            .map(|on_close| on_close.call(Ok(()), ThreadsafeFunctionCallMode::NonBlocking));
+        self.task_handle.abort();
+    }
+}
 
 #[napi]
 pub struct GeyserClient {
@@ -18,15 +35,12 @@ pub struct GeyserClient {
 }
 
 #[napi]
-pub async fn connect_geyser(
+pub fn create_geyser_client(
     endpoint: String,
-    config: Option<ClientConfig>,
+    config: Option<GeyserClientConfig>,
 ) -> Result<GeyserClient> {
-    let config = config.map(|x| x.into());
-
-    let client = yellowstone_geyser_client::GeyserClient::connect(endpoint, config)
-        .await
-        .map_err(|e| Error::from_reason(format!("Connection error: {}", e)))?;
+    let client = yellowstone_geyser_client::GeyserClient::new(endpoint, config.map(|x| x.into()))
+        .map_err(|e| Error::from_reason(e.to_string()))?;
 
     Ok(GeyserClient { client })
 }
@@ -38,27 +52,41 @@ impl GeyserClient {
         &self,
         subscribe_request: Option<SubscribeRequest>,
         on_update: ThreadsafeFunction<SubscribeUpdate>,
-    ) -> Result<()> {
+        on_close: Option<ThreadsafeFunction<()>>,
+    ) -> Result<GeyserSubscription> {
         let mut client = self.client.clone();
         let on_update = on_update.clone();
+        let on_close_clone = on_close.clone();
 
-        napi::tokio::spawn(async move {
-            let mut stream = client
-                .subscribe(subscribe_request.map(|x| x.into()).unwrap_or_default())
-                .await
-                .map_err(|e| Error::from_reason(format!("Subscription error: {}", e)))?;
+        let task_handle = napi::tokio::spawn(async move {
+            let result = async {
+                let mut stream = client
+                    .subscribe(subscribe_request.map(|x| x.into()).unwrap_or_default())
+                    .await
+                    .map_err(|e| Error::from_reason(e.to_string()))?;
 
-            while let Some(update) = stream
-                .message()
-                .await
-                .map_err(|e| Error::from_reason(format!("Stream error: {}", e)))?
-            {
-                on_update.call(Ok(update.into()), ThreadsafeFunctionCallMode::NonBlocking);
+                while let Some(update) = stream
+                    .message()
+                    .await
+                    .map_err(|e| Error::from_reason(e.to_string()))?
+                {
+                    on_update.call(Ok(update.into()), ThreadsafeFunctionCallMode::NonBlocking);
+                }
+
+                Ok::<(), Error>(())
+            }
+            .await;
+
+            if let Some(on_close) = on_close_clone {
+                on_close.call(Ok(()), ThreadsafeFunctionCallMode::NonBlocking);
             }
 
-            Ok::<(), Error>(())
+            result
         });
 
-        Ok(())
+        Ok(GeyserSubscription {
+            task_handle,
+            on_close,
+        })
     }
 }

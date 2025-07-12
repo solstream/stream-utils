@@ -5,15 +5,15 @@ use tonic::metadata::MetadataValue;
 use yellowstone_geyser_client::proto::geyser::subscribe_update::UpdateOneof;
 
 #[napi(object)]
-pub struct ClientConfig {
+pub struct GeyserClientConfig {
     pub x_token: Option<String>,
     pub x_request_snapshot: Option<bool>,
     pub max_decoding_message_size: Option<u32>,
     pub max_encoding_message_size: Option<u32>,
 }
 
-impl From<ClientConfig> for yellowstone_geyser_client::GeyserClientConfig {
-    fn from(config: ClientConfig) -> Self {
+impl From<GeyserClientConfig> for yellowstone_geyser_client::GeyserClientConfig {
+    fn from(config: GeyserClientConfig) -> Self {
         yellowstone_geyser_client::GeyserClientConfig {
             x_token: config.x_token.map(|x| MetadataValue::from_str(&x).unwrap()),
             x_request_snapshot: config.x_request_snapshot.unwrap_or(false),
