@@ -1,3 +1,7 @@
 [workspace]
-members = ["crates/*"]
+members = ["crates/*", "packages/*"]
 resolver = "2"
+
+[profile.release]
+lto = true
+strip = "symbols"

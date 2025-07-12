@@ -6,6 +6,7 @@ use crate::proto::{ShredstreamEntry, ShredstreamSubscribeEntriesRequest};
 
 pub mod proto;
 
+#[derive(Clone)]
 pub struct ShredstreamProxyClient {
     client: crate::proto::shredstream::shredstream_proxy_client::ShredstreamProxyClient<Channel>,
 }
@@ -30,7 +31,7 @@ impl ShredstreamProxyClient {
             .client
             .subscribe_entries(request)
             .await
-            .map_err(|e| Box::new(e) as Box<dyn Error>)?;
+            .map_err(|e| Box::new(e))?;
 
         Ok(response.into_inner())
     }

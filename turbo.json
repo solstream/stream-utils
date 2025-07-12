@@ -9,6 +9,10 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"]
     },
+    "build:debug": {
+      "dependsOn": ["^build:debug"],
+      "outputs": ["dist/**", ".next/**"]
+    },
     "dev": {
       "cache": false,
       "persistent": false,
@@ -28,28 +32,6 @@
     },
     "test": {
       "dependsOn": ["^topo", "^build"]
-    },
-    "db:push": {
-      "cache": false,
-      "persistent": false
-    },
-    "clean": {
-      "cache": false
-    },
-    "//#clean": {
-      "cache": false
-    },
-    "push": {
-      "cache": false,
-      "interactive": true
-    },
-    "studio": {
-      "cache": false,
-      "persistent": true
-    },
-    "ui-add": {
-      "cache": false,
-      "interactive": true
     }
   }
 }
