@@ -7,7 +7,7 @@
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
+      "outputs": ["dist/**", "target/**", "index.d.ts", "index.js", "*.node"]
     },
     "build:debug": {
       "dependsOn": ["^build:debug"],
