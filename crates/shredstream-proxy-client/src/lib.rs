@@ -2,14 +2,15 @@ use crate::proto::{Entry, SubscribeEntriesRequest};
 use std::error::Error;
 use tonic::{transport::Channel, Streaming};
 
+pub mod decode;
 pub mod proto;
 
 #[derive(Clone)]
-pub struct ProxyClient {
+pub struct ShredstreamClient {
     client: crate::proto::shredstream::shredstream_proxy_client::ShredstreamProxyClient<Channel>,
 }
 
-impl ProxyClient {
+impl ShredstreamClient {
     pub async fn connect(endpoint: impl AsRef<str>) -> Result<Self, Box<dyn Error>> {
         let client =
             crate::proto::shredstream::shredstream_proxy_client::ShredstreamProxyClient::connect(
