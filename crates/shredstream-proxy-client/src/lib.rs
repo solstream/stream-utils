@@ -2,7 +2,6 @@ use crate::proto::{Entry, SubscribeEntriesRequest};
 use std::error::Error;
 use tonic::{transport::Channel, Streaming};
 
-pub mod decode;
 pub mod proto;
 
 #[derive(Clone)]

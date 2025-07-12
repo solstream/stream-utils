@@ -5,11 +5,9 @@ version = "0.0.1"
 publish = false
 
 [dependencies]
-bincode = "1.3.3"
 prost = "0.13.1"
 prost-types = "0.13.1"
 serde = { version = "1.0.219", features = ["derive"] }
-solana-entry = "2.3.4"
 thiserror = "2.0.12"
 tonic = { version = "0.13.1", features = ["tls-ring", "tls-native-roots", "tls-webpki-roots"] }
 

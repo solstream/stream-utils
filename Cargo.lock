@@ -2780,12 +2780,10 @@ checksum = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
 name = "shredstream_proxy_client"
 version = "0.0.1"
 dependencies = [
- "bincode",
  "prost",
  "prost-types",
  "protobuf-src",
  "serde",
- "solana-entry",
  "thiserror 2.0.12",
  "tonic",
  "tonic-build",
@@ -2795,6 +2793,7 @@ dependencies = [
 name = "shredstream_proxy_client_ts"
 version = "0.0.1"
 dependencies = [
+ "bincode",
  "napi",
  "napi-build",
  "napi-derive",

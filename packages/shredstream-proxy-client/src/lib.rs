@@ -3,21 +3,21 @@
 #[macro_use]
 extern crate napi_derive;
 
-use shredstream_proxy_client::decode::decode_shredstream_entry;
-
+mod decode;
 mod types;
 
+use crate::types::DecodedShredstreamEntry;
+use decode::decode_entries;
 use napi::{
     threadsafe_function::{ThreadsafeFunction, ThreadsafeFunctionCallMode},
     Error, Result,
 };
 
+pub use decode::node_decode_entries;
 pub use types::{
     ShredstreamCommitmentLevel, ShredstreamEntriesRequest, ShredstreamEntry,
     ShredstreamFilterAccounts, ShredstreamFilterSlots, ShredstreamFilterTransactions,
 };
-
-use crate::types::DecodedShredstreamEntry;
 
 #[napi]
 pub struct ShredstreamClient {
@@ -90,14 +90,13 @@ impl ShredstreamClient {
                 .await
                 .map_err(|e| Error::from_reason(format!("Stream error: {}", e)))?
             {
-                let decoded_entry = decode_shredstream_entry(entry)
+                let decoded_entry = decode_entries(entry.entries)
                     .map_err(|e| Error::from_reason(format!("Decoding error: {}", e)))?;
 
                 on_entry.call(
                     Ok(DecodedShredstreamEntry {
-                        slot: decoded_entry.slot.into(),
+                        slot: entry.slot.into(),
                         entries: decoded_entry
-                            .entries
                             .into_iter()
                             .map(|entry| entry.into())
                             .collect(),
