@@ -1,0 +1,21 @@
+{
+  "name": "@solstream/shredstream-proxy-linux-arm64-musl",
+  "version": "0.0.0",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "@solstream/shredstream-proxy.linux-arm64-musl.node",
+  "files": [
+    "@solstream/shredstream-proxy.linux-arm64-musl.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "libc": [
+    "musl"
+  ]
+}
