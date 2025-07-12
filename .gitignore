@@ -8,6 +8,7 @@ test-results.json
 
 .turbo/
 dist/
+target/
 *.tsbuildinfo
 
 npm-debug.log*
