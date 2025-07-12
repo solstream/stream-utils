@@ -1,0 +1,15 @@
+{
+  "name": "@solstream/yellowstone-geyser-darwin-universal",
+  "version": "0.0.1",
+  "os": [
+    "darwin"
+  ],
+  "main": "@solstream/yellowstone-geyser.darwin-universal.node",
+  "files": [
+    "@solstream/yellowstone-geyser.darwin-universal.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@solstream/yellowstone-geyser-linux-arm64-gnu",
+  "version": "0.0.1",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "@solstream/yellowstone-geyser.linux-arm64-gnu.node",
+  "files": [
+    "@solstream/yellowstone-geyser.linux-arm64-gnu.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "libc": [
+    "glibc"
+  ]
+}

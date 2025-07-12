@@ -5,7 +5,6 @@ extern crate napi_derive;
 
 mod types;
 
-use crate::types::node_subscribe_request_to_subscribe_request;
 use napi::{
     threadsafe_function::{ThreadsafeFunction, ThreadsafeFunctionCallMode},
     Error, Result,
@@ -38,7 +37,7 @@ impl ShredstreamProxyClient {
         subscribe_request: ShredstreamEntriesRequest,
         on_entry: ThreadsafeFunction<ShredstreamEntry>,
     ) -> Result<()> {
-        let request = node_subscribe_request_to_subscribe_request(subscribe_request);
+        let request = subscribe_request.into();
         let mut client = self.client.clone();
 
         napi::tokio::spawn(async move {

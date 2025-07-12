@@ -1,0 +1,18 @@
+[package]
+name = "yellowstone_geyser_client_ts"
+version = "0.0.1"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+napi = { version = "2.12.2", default-features = false, features = ["napi6", "serde-json", "tokio_rt", "async"] }
+napi-derive = "2.12.2"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
+tonic = { version = "0.13.1", features = ["tls-ring", "tls-native-roots", "tls-webpki-roots"] }
+yellowstone_geyser_client = { path = "../../crates/yellowstone-geyser-client" }
+
+[build-dependencies]
+napi-build = "2.0.1"

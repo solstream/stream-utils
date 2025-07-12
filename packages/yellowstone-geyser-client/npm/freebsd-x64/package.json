@@ -1,0 +1,18 @@
+{
+  "name": "@solstream/yellowstone-geyser-freebsd-x64",
+  "version": "0.0.1",
+  "os": [
+    "freebsd"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "@solstream/yellowstone-geyser.freebsd-x64.node",
+  "files": [
+    "@solstream/yellowstone-geyser.freebsd-x64.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}

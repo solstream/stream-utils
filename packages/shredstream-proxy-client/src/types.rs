@@ -84,62 +84,62 @@ impl From<ShredstreamCommitmentLevel> for shredstream_proxy_client::proto::Commi
     }
 }
 
-pub fn node_subscribe_request_to_subscribe_request(
-    request: ShredstreamEntriesRequest,
-) -> shredstream_proxy_client::proto::SubscribeEntriesRequest {
-    shredstream_proxy_client::proto::SubscribeEntriesRequest {
-        accounts: request
-            .accounts
-            .unwrap_or_default()
-            .into_iter()
-            .map(|(key, value)| {
-                (
-                    key,
-                    shredstream_proxy_client::proto::SubscribeRequestFilterAccounts {
-                        account: value.account,
-                        owner: value.owner,
-                        filters: vec![],
-                        nonempty_txn_signature: Some(
-                            value.nonempty_txn_signature.unwrap_or_default(),
-                        ),
-                    },
-                )
-            })
-            .collect(),
+impl From<ShredstreamEntriesRequest> for shredstream_proxy_client::proto::SubscribeEntriesRequest {
+    fn from(request: ShredstreamEntriesRequest) -> Self {
+        shredstream_proxy_client::proto::SubscribeEntriesRequest {
+            accounts: request
+                .accounts
+                .unwrap_or_default()
+                .into_iter()
+                .map(|(key, value)| {
+                    (
+                        key,
+                        shredstream_proxy_client::proto::SubscribeRequestFilterAccounts {
+                            account: value.account,
+                            owner: value.owner,
+                            filters: vec![],
+                            nonempty_txn_signature: Some(
+                                value.nonempty_txn_signature.unwrap_or_default(),
+                            ),
+                        },
+                    )
+                })
+                .collect(),
 
-        transactions: request
-            .transactions
-            .unwrap_or_default()
-            .into_iter()
-            .map(|(key, value)| {
-                (
-                    key,
-                    shredstream_proxy_client::proto::SubscribeRequestFilterTransactions {
-                        account_include: value.account_include,
-                        account_exclude: value.account_exclude,
-                        account_required: value.account_required,
-                    },
-                )
-            })
-            .collect(),
+            transactions: request
+                .transactions
+                .unwrap_or_default()
+                .into_iter()
+                .map(|(key, value)| {
+                    (
+                        key,
+                        shredstream_proxy_client::proto::SubscribeRequestFilterTransactions {
+                            account_include: value.account_include,
+                            account_exclude: value.account_exclude,
+                            account_required: value.account_required,
+                        },
+                    )
+                })
+                .collect(),
 
-        slots: request
-            .slots
-            .unwrap_or_default()
-            .into_iter()
-            .map(|(key, value)| {
-                (
-                    key,
-                    shredstream_proxy_client::proto::SubscribeRequestFilterSlots {
-                        filter_by_commitment: value.filter_by_commitment,
-                        interslot_updates: value.interslot_updates,
-                    },
-                )
-            })
-            .collect(),
+            slots: request
+                .slots
+                .unwrap_or_default()
+                .into_iter()
+                .map(|(key, value)| {
+                    (
+                        key,
+                        shredstream_proxy_client::proto::SubscribeRequestFilterSlots {
+                            filter_by_commitment: value.filter_by_commitment,
+                            interslot_updates: value.interslot_updates,
+                        },
+                    )
+                })
+                .collect(),
 
-        commitment: request
-            .commitment
-            .map(|c| ShredstreamCommitmentLevel::from(c) as i32),
+            commitment: request
+                .commitment
+                .map(|c| ShredstreamCommitmentLevel::from(c) as i32),
+        }
     }
 }
