@@ -22,7 +22,7 @@ pub struct ShredstreamProxyClient {
 }
 
 #[napi]
-pub async fn create_shredstream_proxy_client(endpoint: String) -> Result<ShredstreamProxyClient> {
+pub async fn connect_shredstream_proxy(endpoint: String) -> Result<ShredstreamProxyClient> {
     let client = shredstream_proxy_client::ProxyClient::connect(endpoint)
         .await
         .map_err(|e| Error::from_reason(format!("Connection error: {}", e)))?;
