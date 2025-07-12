@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "yoavbls.pretty-ts-errors",
+    "hashicorp.hcl",
+    "dbaeumer.vscode-eslint",
+    "vitest.explorer",
+    "irongeek.vscode-env",
+    "hashicorp.terraform",
+    "github.vscode-github-actions"
+  ]
+}

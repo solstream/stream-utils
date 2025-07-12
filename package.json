@@ -1,0 +1,39 @@
+{
+  "name": "@solstream/stream-utils",
+  "private": true,
+  "engines": {
+    "node": ">=22.11.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/solstream/stream-utils.git"
+  },
+  "packageManager": "pnpm@9.14.2",
+  "scripts": {
+    "prepare": "husky",
+    "lint": "turbo run lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
+    "format": "prettier --ignore-path .prettierignore --cache --cache-location node_modules/.cache/.prettiercache --write . && turbo run format",
+    "typecheck": "turbo run typecheck",
+    "build": "turbo run build",
+    "build:debug": "turbo run build:debug",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.3",
+    "sherif": "^1.4.0",
+    "turbo": "^2.5.0",
+    "typescript": "^5.8.2",
+    "vitest": "^3.1.3"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "prettier . --write"
+    ],
+    "**/*.{json,yaml,yml}": [
+      "prettier . --write"
+    ]
+  }
+}
