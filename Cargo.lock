@@ -2793,7 +2793,6 @@ dependencies = [
 name = "shredstream_proxy_client_ts"
 version = "0.0.1"
 dependencies = [
- "bincode",
  "napi",
  "napi-build",
  "napi-derive",
@@ -2803,6 +2802,7 @@ dependencies = [
  "solana-entry",
  "solana-message",
  "solana-transaction",
+ "solana_entry_decoder",
 ]
 
 [[package]]
@@ -4399,6 +4399,14 @@ dependencies = [
  "solana-transaction-context",
  "solana-vote-interface",
  "thiserror 2.0.12",
+]
+
+[[package]]
+name = "solana_entry_decoder"
+version = "0.0.1"
+dependencies = [
+ "bincode",
+ "solana-entry",
 ]
 
 [[package]]

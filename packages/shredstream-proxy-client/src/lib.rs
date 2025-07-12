@@ -3,17 +3,17 @@
 #[macro_use]
 extern crate napi_derive;
 
-mod decode;
-mod types;
+pub mod decode;
+pub mod types;
 
 use crate::types::DecodedShredstreamEntry;
-use decode::decode_entries;
 use napi::{
     threadsafe_function::{ThreadsafeFunction, ThreadsafeFunctionCallMode},
     Error, Result,
 };
 
 pub use decode::node_decode_entries;
+use solana_entry_decoder::decode_entries;
 pub use types::{
     ShredstreamCommitmentLevel, ShredstreamEntriesRequest, ShredstreamEntry,
     ShredstreamFilterAccounts, ShredstreamFilterSlots, ShredstreamFilterTransactions,
