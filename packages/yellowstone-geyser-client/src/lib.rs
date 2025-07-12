@@ -43,32 +43,22 @@ impl GeyserClient {
         let on_update = on_update.clone();
 
         napi::tokio::spawn(async move {
-            if let Err(e) = run_subscribe_stream(&mut client, subscribe_request, on_update).await {
-                eprintln!("Stream error: {}", e);
+            let mut stream = client
+                .subscribe(subscribe_request.map(|x| x.into()).unwrap_or_default())
+                .await
+                .map_err(|e| Error::from_reason(format!("Subscription error: {}", e)))?;
+
+            while let Some(update) = stream
+                .message()
+                .await
+                .map_err(|e| Error::from_reason(format!("Stream error: {}", e)))?
+            {
+                on_update.call(Ok(update.into()), ThreadsafeFunctionCallMode::NonBlocking);
             }
+
+            Ok::<(), Error>(())
         });
 
         Ok(())
     }
-}
-
-async fn run_subscribe_stream(
-    client: &mut yellowstone_geyser_client::GeyserClient,
-    subscribe_request: Option<SubscribeRequest>,
-    on_update: ThreadsafeFunction<SubscribeUpdate>,
-) -> Result<()> {
-    let mut stream = client
-        .subscribe(subscribe_request.map(|x| x.into()).unwrap_or_default())
-        .await
-        .map_err(|e| Error::from_reason(format!("Subscription error: {}", e)))?;
-
-    while let Some(update) = stream
-        .message()
-        .await
-        .map_err(|e| Error::from_reason(format!("Stream error: {}", e)))?
-    {
-        on_update.call(Ok(update.into()), ThreadsafeFunctionCallMode::NonBlocking);
-    }
-
-    Ok(())
 }
