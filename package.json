@@ -15,7 +15,8 @@
     "format": "prettier --ignore-path .prettierignore --cache --cache-location node_modules/.cache/.prettiercache --write . && turbo run format",
     "typecheck": "turbo run typecheck",
     "build": "turbo run build",
-    "build:debug": "turbo run build:debug",
+    "build:napi": "turbo run build:napi",
+    "build:napi:debug": "turbo run build:napi:debug",
     "test": "turbo run test"
   },
   "devDependencies": {

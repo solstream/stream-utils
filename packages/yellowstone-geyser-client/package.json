@@ -5,8 +5,9 @@
   "types": "index.d.ts",
   "scripts": {
     "artifacts": "napi artifacts",
-    "build": "napi build --platform --release",
-    "build:debug": "napi build --platform",
+    "build": "pnpm build:napi",
+    "build:napi": "napi build --platform --release",
+    "build:napi:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish -t npm",
     "universal": "napi universal",
     "version": "napi version"

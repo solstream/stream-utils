@@ -9,9 +9,13 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "target/**", "index.d.ts", "index.js", "*.node"]
     },
-    "build:debug": {
-      "dependsOn": ["^build:debug"],
-      "outputs": ["dist/**", ".next/**"]
+    "build:napi": {
+      "dependsOn": ["^build:napi"],
+      "outputs": ["dist/**", "target/**", "index.d.ts", "index.js", "*.node"]
+    },
+    "build:napi:debug": {
+      "dependsOn": ["^build:napi:debug"],
+      "outputs": ["dist/**", "target/**", "index.d.ts", "index.js", "*.node"]
     },
     "dev": {
       "cache": false,
