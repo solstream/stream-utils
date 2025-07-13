@@ -108,18 +108,18 @@ jobs:
           toolchain: stable
           target: ${{ matrix.settings.target }}
           cache: true
-      # - name: Setup Zig
-      #   uses: goto-bus-stop/setup-zig@v2
-      #   if: ${{ contains(matrix.settings.target, 'musl') }}
-      #   with:
-      #     version: 0.14.1
-      # - name: Setup cargo-zigbuild
-      #   uses: taiki-e/install-action@v2
-      #   if: ${{ contains(matrix.settings.target, 'musl') }}
-      #   env:
-      #     GITHUB_TOKEN: ${{ github.token }}
-      #   with:
-      #     tool: cargo-zigbuild
+      - name: Setup Zig
+        uses: goto-bus-stop/setup-zig@v2
+        if: ${{ contains(matrix.settings.target, 'musl') || contains(matrix.settings.target, 'gnu') }}
+        with:
+          version: 0.14.1
+      - name: Setup cargo-zigbuild
+        uses: taiki-e/install-action@v2
+        if: ${{ contains(matrix.settings.target, 'musl') || contains(matrix.settings.target, 'gnu') }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tool: cargo-zigbuild
       - name: Setup toolchain
         run: ${{ matrix.settings.setup }}
         if: ${{ matrix.settings.setup }}
